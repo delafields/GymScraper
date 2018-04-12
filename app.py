@@ -22,11 +22,17 @@ for p in workout:
 rm_tags = re.compile('</*(p|br)/*>')
 text = rm_tags.sub('\n', res)
 
-account_sid = 'XXX'
-auth_token = 'XXX'
+TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
+TWILIO_NUMBER = os.environ.get('TWILIO_NUMBER')
+MY_NUMBER = os.environ.get('MY_NUMBER')
 
-client = Client(account_sid, auth_token)
+client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
-client.api.account.messages.create(to = '+XXX', from_ = '+XXX', body = text)
+client.api.account.messages.create(
+    to = MY_NUMBER,
+    from_ = TWILIO_NUMBER,
+    body = text
+    )
 
 print(text)

@@ -2,22 +2,22 @@ from bs4 import BeautifulSoup
 import urllib.request
 import re
 
+# Soupify the page
 url = 'https://www.districtcrossfit.com/'
-
 page = urllib.request.urlopen(url)
-
 soup = BeautifulSoup(page, 'html.parser')
 
-workout_box = soup.find('div', attrs={'class': 'summary-excerpt'})
+# Find the workout div and its p tags
+workout_div = soup.find('div', attrs={'class': 'summary-excerpt'})
+workout = workout_div.find_all('p')
 
-test = workout_box.find_all('p')
-vals = []
-for child in test:
-    vals.append(str(child))
+# stringify the soup
+res = ''
+for p in workout:
+    res += str(p)
 
-text = ''.join(vals)
-
+# sub the <br/> and <p> tags with newlines
 rm_tags = re.compile('</*(p|br)/*>')
-new = rm_tags.sub('\n', text)
+text = rm_tags.sub('\n', res)
 
-print(new)
+print(text)

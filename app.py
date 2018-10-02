@@ -12,8 +12,8 @@ def get_workout(url):
     soup = BeautifulSoup(page, 'html.parser')
 
     # Find the workout div and its p tags
-    workout_div = soup.find('div', attrs={'class': 'summary-excerpt'})
-    workout = workout_div.find_all('p')
+    workout_box = soup.find('div', attrs={'article': 'article-index-1'})
+    workout = workout_box.find_all('p')
 
     # stringify the soup
     res = ''
@@ -21,7 +21,7 @@ def get_workout(url):
         res += str(p)
 
     # sub the <br/> and <p> tags with newlines
-    rm_tags = re.compile('</*(p|br)/*>')
+    rm_tags = re.compile('(</?p[^>]*>|<br/>)')
     text = rm_tags.sub('\n', res)
 
     return text
@@ -48,8 +48,9 @@ def text_workout():
         )
 
 weekday = datetime.datetime.today().isoweekday()
-# If its thurs or sat – exit the program, else text
-if weekday == 4 or weekday == 7:
+# Sunday = 0 Saturday = 7
+# If its sat or sun exit the program, else text
+if weekday == 7 or weekday == 0:
     sys.exit()
 else:
     text_workout()

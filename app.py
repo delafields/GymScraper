@@ -12,7 +12,7 @@ def get_workout(url):
     soup = BeautifulSoup(page, 'html.parser')
 
     # Find the workout div and its p tags
-    workout_box = soup.find('div', attrs={'article': 'article-index-1'})
+    workout_box = soup.find('article', attrs={'class': 'article-index-1'})
     workout = workout_box.find_all('p')
 
     # stringify the soup
